@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlRoot">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reserve Your Car – CarsForRent.com</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #121212;
+      --card-bg: #1a1a1a;
+      --text: #e0e0e0;
+      --text-secondary: #aaaaaa;
+      --accent: #0066b1;
+      --border: rgba(255,255,255,0.08);
+      --shadow: rgba(0,0,0,0.5);
+    }
+
+    .light-theme {
+      --bg: #f8f9fa;
+      --surface: #ffffff;
+      --card-bg: #f1f3f5;
+      --text: #212529;
+      --text-secondary: #495057;
+      --accent: #0066b1;
+      --border: rgba(0,0,0,0.1);
+      --shadow: rgba(0,0,0,0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: var(--surface);
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 10px var(--shadow);
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.4rem;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+
+    .back-btn:hover {
+      background: var(--border);
+      color: var(--accent);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.4rem;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    main {
+      margin-top: 90px;
+      padding: 2rem 5%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+
+    .summary, .booking-form {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 8px 20px var(--shadow);
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+
+    .car-preview {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .car-preview img {
+      width: 350px;
+    
+      padding: 0.8rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .car-preview h2 {
+      color: var(--text);
+      margin-bottom: 0.3rem;
+      font-size: 1.4rem;
+    }
+
+    .car-preview .brand {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    .price {
+      font-size: 1.6rem;
+      color: var(--accent);
+      font-weight: bold;
+      margin: 1rem 0;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 0.9rem 2rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      font-size: 1.1rem;
+    }
+
+    .btn:hover {
+      background: #005599;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-left">
+      <button class="back-btn" onclick="window.history.back()">
+        <i class="fas fa-arrow-left"></i>
+      </button>
+      <a href="index.html" class="logo">CarsForRent<span style="color:var(--text-secondary)">.com</span></a>
+    </div>
+    <button id="themeToggle" class="theme-toggle">
+      <i class="fas fa-moon"></i>
+    </button>
+  </nav>
+
+  <main>
+    <div class="summary">
+      <h2>Your Selection</h2>
+      <div class="car-preview">
+        <img id="carImg" src="" alt="Car">
+        <h2 id="modelName">Loading...</h2>
+        <div class="brand" id="brandName"></div>
+        <div class="price" id="price"></div>
+      </div>
+      <p style="font-size:0.95rem; color:var(--text-secondary); text-align:center;">
+        All rentals include insurance, 24/7 roadside assistance, and unlimited mileage.
+      </p>
+    </div>
+
+    <div class="booking-form">
+      <h2>Complete Your Reservation</h2>
+      <form id="bookingForm">
+        <div class="form-group">
+          <label for="pickup">Pick-up Date & Time</label>
+          <input type="datetime-local" id="pickup" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="dropoff">Drop-off Date & Time</label>
+          <input type="datetime-local" id="dropoff" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" class="form-control" required>
+        </div>
+        <button type="submit" class="btn">Confirm Reservation</button>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 CarsForRent.com – powered and developed by: Abdullah Tarhini - Secure. Luxury. Guaranteed.
+  </footer>
+
+  <script>
+    // Theme toggle
+    const html = document.getElementById('htmlRoot');
+    const toggleBtn = document.getElementById('themeToggle');
+    const icon = toggleBtn.querySelector('i');
+
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+      html.classList.add('light-theme');
+      icon.className = 'fas fa-sun';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      html.classList.toggle('light-theme');
+      const isLight = html.classList.contains('light-theme');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      icon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
+    });
+
+    // Full car data (same as car-detail.html)
+    const cars = {
+      mercedes: {
+        cla: {
+          name: "Mercedes-Benz CLA 250", brand: "Mercedes-Benz", price: "$129/day",
+          colors: [
+            { img: "image/CLA-250-BLACK.png" },
+            { img: "image/CLA-250-white.png" },
+            { img: "image/CLA-250-grey.png" }
+          ]
+        }
+      },
+      bmw: {
+        x6: {
+          name: "BMW X6 M50i", brand: "BMW", price: "$249/day",
+          colors: [
+            { img: "image/X6.png" },
+            { img: "image/X6-white.png" }
+          ]
+        }
+      },
+      audi: {
+        q8: {
+          name: "Audi Q8 Prestige", brand: "Audi", price: "$189/day",
+          colors: [
+            { img: "image/Q8-grey.png" },
+            { img: "image/Q8-white.png" },
+            { img: "image/Q8-black.png" },
+            { img: "image/Q8-blue.png" }
+          ]
+        }
+      },
+      porsche: {
+        '911': {
+          name: "Porsche 911 GT3", brand: "Porsche", price: "$499/day",
+          colors: [
+            { img: "image/GT3.png" }
+          ]
+        }
+      },
+      lexus: {
+        lx: {
+          name: "Lexus LX 600", brand: "Lexus", price: "$219/day",
+          colors: [
+            { img: "image/LX600-white.png" },
+            { img: "image/LX600-black.png" },
+            { img: "image/LX600-urban.png" },
+            { img: "image/LX600-green.png" }
+          ]
+        }
+      },
+      jaguar: {
+        ftype: {
+          name: "Jaguar F-Type R", brand: "Jaguar", price: "$199/day",
+          colors: [
+            { img: "image/F-TYPE-red.png" },
+            { img: "image/F-TYPE-white.png" }
+          ]
+        }
+      }
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const brandKey = urlParams.get('brand');
+    const modelKey = urlParams.get('model');
+    const colorIndex = parseInt(urlParams.get('color')) || 0;
+
+    if (cars[brandKey] && cars[brandKey][modelKey]) {
+      const car = cars[brandKey][modelKey];
+      const color = car.colors[colorIndex] || car.colors[0];
+
+      document.getElementById('modelName').textContent = car.name;
+      document.getElementById('brandName').textContent = car.brand;
+      document.getElementById('price').textContent = car.price;
+      document.getElementById('carImg').src = color.img;
+    }
+
+    // Form validation
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const pickup = new Date(document.getElementById('pickup').value);
+      const dropoff = new Date(document.getElementById('dropoff').value);
+      
+      if (dropoff <= pickup) {
+        alert('⚠️ Drop-off must be after pick-up.');
+        return;
+      }
+
+      alert('✅ Reservation confirmed!\nOur concierge will contact you within 15 minutes.');
+      this.reset();
+    });
+
+    // Set min datetime to now
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(Math.ceil(now.getMinutes() / 15) * 15 % 60).padStart(2, '0'); // Round up to next 15 min
+    document.getElementById('pickup').min = `${year}-${month}-${day}T${hours}:${minutes}`;
+    document.getElementById('dropoff').min = `${year}-${month}-${day}T${hours}:${minutes}`;
+  </script>
+</body>
+</html>

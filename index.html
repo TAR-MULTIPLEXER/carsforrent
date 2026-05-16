@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlRoot">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CarsForRent.com – Premium Luxury Car Rentals</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    /* === THEMES === */
+    :root {
+      --bg: #0a0a0a;
+      --surface: #121212;
+      --card-bg: #1a1a1a;
+      --text: #e0e0e0;
+      --text-secondary: #aaaaaa;
+      --accent: #0066b1;
+      --border: rgba(255,255,255,0.08);
+      --shadow: rgba(0,0,0,0.5);
+    }
+
+    .light-theme {
+      --bg: #f8f9fa;
+      --surface: #ffffff;
+      --card-bg: #f1f3f5;
+      --text: #212529;
+      --text-secondary: #495057;
+      --accent: #0066b1;
+      --border: rgba(0,0,0,0.1);
+      --shadow: rgba(0,0,0,0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      transition: background-color 0.4s, color 0.4s;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* === NAVIGATION === */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: var(--surface);
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      box-shadow: 0 2px 10px var(--shadow);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .theme-toggle {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.4rem;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+
+    .theme-toggle:hover {
+      background: var(--border);
+    }
+
+    /* === HERO === */
+    .hero {
+      height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: linear-gradient(rgba(10,10,10,0.7), rgba(10,10,10,0.8)), url('image/background.jpg');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      margin-top: 70px;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      padding: 2rem;
+    }
+
+    .hero h1 {
+      font-size: 3.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--accent);
+      color: white;
+      padding: 0.9rem 2.2rem;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,102,177,0.4);
+    }
+
+    /* === ANIMATED SECTIONS === */
+    section {
+      padding: 5rem 5%;
+      opacity: 0;
+      transform: translateY(30px);
+      animation: fadeInUp 0.8s forwards;
+    }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    section:nth-child(2) { animation-delay: 0.1s; }
+    section:nth-child(3) { animation-delay: 0.2s; }
+    section:nth-child(4) { animation-delay: 0.3s; }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      color: var(--text);
+      font-size: 2.4rem;
+      position: relative;
+    }
+
+    h2::after {
+      content: '';
+      display: block;
+      width: 70px;
+      height: 3px;
+      background: var(--accent);
+      margin: 0.8rem auto;
+      border-radius: 2px;
+    }
+
+    /* === BRANDS LOGO CAROUSEL === */
+    .brand-logos {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 3rem;
+      margin-top: 2rem;
+      padding: 8px 0;
+      animation: float 8s ease-in-out infinite;
+      background-color: var(--text-secondary);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .brand-logos img {
+      height: 60px;
+      filter: grayscale(100%) brightness(1.2);
+      transition: all 0.4s ease;
+    }
+
+    .brand-logos img:hover {
+      filter: grayscale(0);
+      transform: scale(1.15);
+    }
+
+    /* === TABLES === */
+    .comparison-table {
+      max-width: 1000px;
+      margin: 2rem auto;
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px var(--shadow);
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 1.2rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .comparison-table th {
+      background: var(--surface);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .comparison-table tr:hover {
+      background: rgba(0,102,177,0.05);
+    }
+
+    /* === PHILOSOPHY CARDS === */
+    .philosophy {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px var(--shadow);
+    }
+
+    .card h3 {
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+      border-top: 1px solid var(--border);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2.4rem; }
+      .philosophy { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="logo">CarsForRent<span style="color:var(--text-secondary)">.com</span></a>
+    <div class="nav-right">
+      <button id="themeToggle" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Rent the Future of Mobility</h1>
+      <p>Experience the pinnacle of automotive engineering with our curated fleet of luxury vehicles from the world’s most innovative brands.</p>
+      <a href="cars.html" class="btn">Explore Cars →</a>
+    </div>
+  </section>
+
+  <!-- BRANDS -->
+  <section>
+    <h2>Our Premium Partners</h2>
+    <div class="brand-logos">
+      <img src="https://www.motortrend.com/uploads/makes/mercedes_benz.png" alt="Mercedes-Benz">
+      <img src="https://www.carlogos.org/car-logos/bmw-logo-1997-1200x1200.png" alt="BMW">
+      <img src="logos/Audi-Logo_2016.svg.png" alt="Audi">
+      <img src="logos/Porsche_Logo.svg.png" alt="Porsche">
+      <img src="logos/lexus-logo-png-transparent.png" alt="Lexus">
+      <img src="logos/1200px-Jaguar-logo-2012-1920x1080.png" alt="Jaguar">
+    </div>
+  </section>
+
+  <!-- BRAND PHILOSOPHIES -->
+  <section>
+    <h2>Designing Tomorrow’s Mobility</h2>
+    <div class="philosophy">
+      <div class="card">
+        <h3><i class="fas fa-crown" style="color:#007bc1;"></i> Mercedes-Benz</h3>
+        <p>“The best or nothing.” Mercedes-Benz pioneers safety, comfort, and electric innovation with its EQ line, redefining luxury for a sustainable future.</p>
+      </div>
+      <div class="card">
+        <h3><i class="fas fa-bolt" style="color:#0066b1;"></i> BMW</h3>
+        <p>Through its “Changing Lanes” vision, BMW integrates sustainability, digital mobility, and performance — driving the shift to electric and circular design.</p>
+      </div>
+      <div class="card">
+        <h3><i class="fas fa-microchip" style="color:#999;"></i> Audi</h3>
+        <p>“Help us design the mobility of tomorrow.” Audi leads with Vorsprung durch Technik — digital, electric, and sustainable cars that shape the future.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLEET COMPARISON TABLE -->
+  <section>
+    <h2>Luxury Cars Overview</h2>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Brand</th>
+          <th>Flagship Model</th>
+          <th>Powertrain</th>
+          <th>0–100 km/h</th>
+          <th>Starting Price/Day</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Mercedes-Benz</td>
+          <td>EQS 580</td>
+          <td>Electric (516 HP)</td>
+          <td>4.3 sec</td>
+          <td>$349</td>
+        </tr>
+        <tr>
+          <td>BMW</td>
+          <td>i7 xDrive60</td>
+          <td>Electric (536 HP)</td>
+          <td>4.5 sec</td>
+          <td>$329</td>
+        </tr>
+        <tr>
+          <td>Audi</td>
+          <td>e-tron GT</td>
+          <td>Electric (522 HP)</td>
+          <td>3.9 sec</td>
+          <td>$299</td>
+        </tr>
+        <tr>
+          <td>Porsche</td>
+          <td>Taycan Turbo S</td>
+          <td>Electric (750 HP)</td>
+          <td>2.6 sec</td>
+          <td>$599</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    &copy; 2025 CarsForRent.com – Licensed Luxury Car Rental Partner - powered and developed by Abdullah Tarhini | All Rights Reserved
+  </footer>
+
+  <script>
+    // Theme Toggle
+    const html = document.getElementById('htmlRoot');
+    const toggleBtn = document.getElementById('themeToggle');
+    const icon = toggleBtn.querySelector('i');
+
+    // Check saved preference
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+      html.classList.add('light-theme');
+      icon.className = 'fas fa-sun';
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      html.classList.toggle('light-theme');
+      const isLight = html.classList.contains('light-theme');
+      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+      icon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
+    });
+  </script>
+</body>
+</html>
