@@ -7,7 +7,6 @@
   <link rel="shortcut icon" href="image/car_rental_logo.jpeg" type="image/x-icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    /* === THEMES === */
     :root {
       --bg: #0a0a0a;
       --surface: #121212;
@@ -17,9 +16,9 @@
       --accent: #0066b1;
       --border: rgba(255,255,255,0.08);
       --shadow: rgba(0,0,0,0.5);
+      --nav-height: 70px;
     }
-
-    .light-theme {
+    .light-mode {
       --bg: #f8f9fa;
       --surface: #ffffff;
       --card-bg: #f1f3f5;
@@ -29,7 +28,6 @@
       --border: rgba(0,0,0,0.1);
       --shadow: rgba(0,0,0,0.1);
     }
-
     * {
       margin: 0;
       padding: 0;
@@ -37,20 +35,22 @@
       font-family: 'Helvetica Neue', Arial, sans-serif;
       transition: background-color 0.4s, color 0.4s;
     }
-
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       background-color: var(--bg);
       color: var(--text);
       line-height: 1.7;
+      overflow-x: hidden;
     }
-
-    /* === NAVIGATION === */
     nav {
       position: fixed;
       top: 0;
       width: 100%;
+      height: var(--nav-height);
       background: var(--surface);
-      padding: 1rem 5%;
+      padding: 0 5%;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -59,23 +59,43 @@
     }
 
     .logo {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 700;
       color: var(--accent);
       text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 0;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
     }
 
     .nav-right {
       display: flex;
       align-items: center;
-      gap: 1.2rem;
+      gap: 1rem;
     }
 
-    .theme-toggle {
+    .dark-mode {
       background: none;
       border: none;
       color: var(--text);
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       cursor: pointer;
       width: 40px;
       height: 40px;
@@ -86,13 +106,78 @@
       transition: background 0.3s;
     }
 
-    .theme-toggle:hover {
+    .dark-mode:hover {
       background: var(--border);
     }
 
-    /* === HERO === */
-    .hero {
-      height: 80vh;
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s;
+    }
+
+    .hamburger:hover {
+      background: var(--border);
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: var(--nav-height);
+      left: 0;
+      width: 100%;
+      background: var(--surface);
+      box-shadow: 0 4px 15px var(--shadow);
+      z-index: 999;
+      padding: 1rem 0;
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .mobile-menu.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .mobile-menu ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .mobile-menu ul li {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mobile-menu ul li:last-child {
+      border-bottom: none;
+    }
+
+    .mobile-menu ul li a {
+      display: block;
+      padding: 1rem 5%;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .mobile-menu ul li a:hover {
+      background: var(--border);
+      color: var(--accent);
+    }
+
+    .beg {
+      height: 85vh;
+      min-height: 500px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -101,26 +186,31 @@
       background-size: cover;
       background-position: center;
       color: white;
-      margin-top: 70px;
+      margin-top: var(--nav-height);
+      padding: 2rem 5%;
     }
 
-    .hero-content {
+    .beg-content {
       max-width: 800px;
-      padding: 2rem;
+      width: 100%;
     }
 
-    .hero h1 {
+    .beg h1 {
       font-size: 3.2rem;
       margin-bottom: 1rem;
+      line-height: 1.2;
     }
 
-    .hero p {
-      font-size: 1.2rem;
+    .beg p {
+      font-size: 1.15rem;
       margin-bottom: 2rem;
       opacity: 0.95;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    .btn {
+    .expcar {
       display: inline-block;
       background: var(--accent);
       color: white;
@@ -131,12 +221,10 @@
       transition: all 0.3s ease;
     }
 
-    .btn:hover {
+    .expcar:hover {
       transform: translateY(-3px);
       box-shadow: 0 6px 15px rgba(0,102,177,0.4);
     }
-
-    /* === ANIMATED SECTIONS === */
     section {
       padding: 5rem 5%;
       opacity: 0;
@@ -151,12 +239,13 @@
     section:nth-child(2) { animation-delay: 0.1s; }
     section:nth-child(3) { animation-delay: 0.2s; }
     section:nth-child(4) { animation-delay: 0.3s; }
+    section:nth-child(5) { animation-delay: 0.4s; }
 
     h2 {
       text-align: center;
       margin-bottom: 2.5rem;
       color: var(--text);
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       position: relative;
     }
 
@@ -169,26 +258,29 @@
       margin: 0.8rem auto;
       border-radius: 2px;
     }
-
-    /* === BRANDS LOGO CAROUSEL === */
     .brand-logos {
       display: flex;
       justify-content: center;
+      align-items: center;
       flex-wrap: wrap;
-      gap: 3rem;
+      gap: 2.5rem;
       margin-top: 2rem;
-      padding: 8px 0;
+      padding: 2rem 1rem;
       animation: float 8s ease-in-out infinite;
-      background-color: var(--text-secondary);
+      background-color: var(--card-bg);
+      border-radius: 12px;
     }
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-8px); }
     }
 
     .brand-logos img {
-      height: 60px;
+      height: 55px;
+      width: auto;
+      max-width: 120px;
+      object-fit: contain;
       filter: grayscale(100%) brightness(1.2);
       transition: all 0.4s ease;
     }
@@ -197,40 +289,9 @@
       filter: grayscale(0);
       transform: scale(1.15);
     }
-
-    /* === TABLES === */
-    .comparison-table {
-      max-width: 1000px;
-      margin: 2rem auto;
-      width: 100%;
-      border-collapse: collapse;
-      background: var(--card-bg);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px var(--shadow);
-    }
-
-    .comparison-table th,
-    .comparison-table td {
-      padding: 1.2rem;
-      text-align: center;
-      border: 1px solid var(--border);
-    }
-
-    .comparison-table th {
-      background: var(--surface);
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .comparison-table tr:hover {
-      background: rgba(0,102,177,0.05);
-    }
-
-    /* === PHILOSOPHY CARDS === */
     .philosophy {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
       margin-top: 2rem;
     }
@@ -240,7 +301,7 @@
       padding: 2rem;
       border-radius: 12px;
       border: 1px solid var(--border);
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .card:hover {
@@ -254,19 +315,217 @@
       display: flex;
       align-items: center;
       gap: 0.6rem;
+      font-size: 1.25rem;
+    }
+    .table-wrapper {
+      max-width: 1000px;
+      margin: 2rem auto;
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px var(--shadow);
     }
 
+    .comparison-table {
+      width: 100%;
+      min-width: 600px;
+      border-collapse: collapse;
+      background: var(--card-bg);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+      padding: 1.2rem 1rem;
+      text-align: center;
+      border: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .comparison-table th {
+      background: var(--surface);
+      color: var(--accent);
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+    }
+
+    .comparison-table tr:hover {
+      background: rgba(0,102,177,0.05);
+    }
     footer {
       text-align: center;
-      padding: 2rem;
+      padding: 2rem 5%;
       color: var(--text-secondary);
       border-top: 1px solid var(--border);
-      font-size: 0.95rem;
+      font-size: 0.9rem;
+      line-height: 1.6;
     }
-
+    @media (max-width: 992px) {
+      .beg h1 {
+        font-size: 2.6rem;
+      }
+      .beg p {
+        font-size: 1.05rem;
+      }
+      h2 {
+        font-size: 2rem;
+      }
+      section {
+        padding: 4rem 4%;
+      }
+      .brand-logos {
+        gap: 2rem;
+      }
+      .brand-logos img {
+        height: 48px;
+      }
+    }
     @media (max-width: 768px) {
-      .hero h1 { font-size: 2.4rem; }
-      .philosophy { grid-template-columns: 1fr; }
+      :root {
+        --nav-height: 60px;
+      }
+
+      .logo {
+        font-size: 1.3rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+
+      .dark-mode {
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+      }
+
+      .beg {
+        height: auto;
+        min-height: 70vh;
+        padding: 3rem 5%;
+      }
+
+      .beg h1 {
+        font-size: 2rem;
+      }
+
+      .beg p {
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .expcar {
+        padding: 0.8rem 1.8rem;
+        font-size: 0.95rem;
+      }
+
+      section {
+        padding: 3rem 4%;
+      }
+
+      h2 {
+        font-size: 1.7rem;
+        margin-bottom: 2rem;
+      }
+
+      .brand-logos {
+        gap: 1.5rem;
+        padding: 1.5rem 1rem;
+      }
+
+      .brand-logos img {
+        height: 40px;
+        max-width: 90px;
+      }
+
+      .philosophy {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .card {
+        padding: 1.5rem;
+      }
+
+      .card h3 {
+        font-size: 1.15rem;
+      }
+
+      .comparison-table th,
+      .comparison-table td {
+        padding: 1rem 0.8rem;
+        font-size: 0.9rem;
+      }
+
+      footer {
+        font-size: 0.8rem;
+        padding: 1.5rem 4%;
+      }
+    }
+    @media (max-width: 480px) {
+      .beg h1 {
+        font-size: 1.7rem;
+      }
+
+      .beg p {
+        font-size: 0.88rem;
+      }
+
+      .expcar {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.88rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+
+      .brand-logos {
+        gap: 1.2rem;
+      }
+
+      .brand-logos img {
+        height: 35px;
+        max-width: 75px;
+      }
+
+      .card {
+        padding: 1.2rem;
+      }
+
+      .card h3 {
+        font-size: 1.05rem;
+      }
+      .comparison-table th,
+      .comparison-table td {
+        padding: 0.8rem 0.6rem;
+        font-size: 0.82rem;
+      }
+    }
+    @media (max-width: 360px) {
+      .beg h1 {
+        font-size: 1.5rem;
+      }
+
+      .logo {
+        font-size: 1.15rem;
+      }
+
+      .brand-logos img {
+        height: 30px;
+        max-width: 65px;
+      }
     }
   </style>
 </head>
@@ -274,22 +533,36 @@
 
   <nav>
     <a href="index.html" class="logo">CarsForRent<span style="color:var(--text-secondary)">.com</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="cars.html">Cars</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
     <div class="nav-right">
-      <button id="themeToggle" class="theme-toggle">
+      <button id="darkmode" class="dark-mode" aria-label="Mode">
         <i class="fas fa-moon"></i>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <i class="fas fa-bars"></i>
       </button>
     </div>
   </nav>
-
-  <section class="hero">
-    <div class="hero-content">
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="cars.html">Cars</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
+  <section class="beg">
+    <div class="beg-content">
       <h1>Rent the Future of Mobility</h1>
-      <p>Experience the pinnacle of automotive engineering with our curated fleet of luxury vehicles from the world’s most innovative brands.</p>
-      <a href="cars.html" class="btn">Explore Cars →</a>
+      <p>Experience the pinnacle of automotive engineering with our curated fleet of luxury vehicles from the world's most innovative brands.</p>
+      <a href="cars.html" class="expcar">Explore Cars →</a>
     </div>
   </section>
-
-  <!-- BRANDS -->
   <section>
     <h2>Our Premium Partners</h2>
     <div class="brand-logos">
@@ -301,94 +574,108 @@
       <img src="logos/1200px-Jaguar-logo-2012-1920x1080.png" alt="Jaguar">
     </div>
   </section>
-
-  <!-- BRAND PHILOSOPHIES -->
   <section>
-    <h2>Designing Tomorrow’s Mobility</h2>
+    <h2>Designing Tomorrow's Mobility</h2>
     <div class="philosophy">
       <div class="card">
         <h3><i class="fas fa-crown" style="color:#007bc1;"></i> Mercedes-Benz</h3>
-        <p>“The best or nothing.” Mercedes-Benz pioneers safety, comfort, and electric innovation with its EQ line, redefining luxury for a sustainable future.</p>
+        <p>"The best or nothing." Mercedes-Benz pioneers safety, comfort, and electric innovation with its EQ line, redefining luxury for a sustainable future.</p>
       </div>
       <div class="card">
         <h3><i class="fas fa-bolt" style="color:#0066b1;"></i> BMW</h3>
-        <p>Through its “Changing Lanes” vision, BMW integrates sustainability, digital mobility, and performance — driving the shift to electric and circular design.</p>
+        <p>Through its "Changing Lanes" vision, BMW integrates sustainability, digital mobility, and performance — driving the shift to electric and circular design.</p>
       </div>
       <div class="card">
         <h3><i class="fas fa-microchip" style="color:#999;"></i> Audi</h3>
-        <p>“Help us design the mobility of tomorrow.” Audi leads with Vorsprung durch Technik — digital, electric, and sustainable cars that shape the future.</p>
+        <p>"Help us design the mobility of tomorrow." Audi leads with Vorsprung durch Technik — digital, electric, and sustainable cars that shape the future.</p>
       </div>
     </div>
   </section>
-
-  <!-- FLEET COMPARISON TABLE -->
   <section>
     <h2>Luxury Cars Overview</h2>
-    <table class="comparison-table">
-      <thead>
-        <tr>
-          <th>Brand</th>
-          <th>Flagship Model</th>
-          <th>Powertrain</th>
-          <th>0–100 km/h</th>
-          <th>Starting Price/Day</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Mercedes-Benz</td>
-          <td>EQS 580</td>
-          <td>Electric (516 HP)</td>
-          <td>4.3 sec</td>
-          <td>$349</td>
-        </tr>
-        <tr>
-          <td>BMW</td>
-          <td>i7 xDrive60</td>
-          <td>Electric (536 HP)</td>
-          <td>4.5 sec</td>
-          <td>$329</td>
-        </tr>
-        <tr>
-          <td>Audi</td>
-          <td>e-tron GT</td>
-          <td>Electric (522 HP)</td>
-          <td>3.9 sec</td>
-          <td>$299</td>
-        </tr>
-        <tr>
-          <td>Porsche</td>
-          <td>Taycan Turbo S</td>
-          <td>Electric (750 HP)</td>
-          <td>2.6 sec</td>
-          <td>$599</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-wrapper">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th>Brand</th>
+            <th>Flagship Model</th>
+            <th>Powertrain</th>
+            <th>0–100 km/h</th>
+            <th>Starting Price/Day</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mercedes-Benz</td>
+            <td>EQS 580</td>
+            <td>Electric (516 HP)</td>
+            <td>4.3 sec</td>
+            <td>$349</td>
+          </tr>
+          <tr>
+            <td>BMW</td>
+            <td>i7 xDrive60</td>
+            <td>Electric (536 HP)</td>
+            <td>4.5 sec</td>
+            <td>$329</td>
+          </tr>
+          <tr>
+            <td>Audi</td>
+            <td>e-tron GT</td>
+            <td>Electric (522 HP)</td>
+            <td>3.9 sec</td>
+            <td>$299</td>
+          </tr>
+          <tr>
+            <td>Porsche</td>
+            <td>Taycan Turbo S</td>
+            <td>Electric (750 HP)</td>
+            <td>2.6 sec</td>
+            <td>$599</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
-
   <footer>
-    &copy; 2025 CarsForRent.com – Licensed Luxury Car Rental Partner - powered and developed by Abdullah Tarhini | All Rights Reserved
+    &copy; 2025 CarsForRent.com – Licensed Luxury Car Rental Partner<br>
+    Powered and developed by Abdullah Tarhini | All Rights Reserved
   </footer>
 
   <script>
-    // Theme Toggle
     const html = document.getElementById('htmlRoot');
-    const toggleBtn = document.getElementById('themeToggle');
-    const icon = toggleBtn.querySelector('i');
-
-    // Check saved preference
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    if (savedTheme === 'light') {
-      html.classList.add('light-theme');
+    const dm = document.getElementById('darkmode');
+    const icon = dm.querySelector('i');
+    const savedmode = localStorage.getItem('mode') || 'dark';
+    if (savedmode === 'light') { //iza kenet msayave light , hot el kabse we icon sun 
+      html.classList.add('light-mode');
       icon.className = 'fas fa-sun';
     }
-
-    toggleBtn.addEventListener('click', () => {
-      html.classList.toggle('light-theme');
-      const isLight = html.classList.contains('light-theme');
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
-      icon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
+    dm.addEventListener('click', () => {
+      html.classList.toggle('light-mode');
+      const isLight = html.classList.contains('light-mode');
+      localStorage.setItem('mode', isLight ? 'light' : 'dark');
+      icon.className = isLight ? 'fas fa-sun' : 'fas fa-moon'; // iza lclass light then 3mele el icon sun eza la2 khali moon
+    });
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const hamburgerIcon = hamburger.querySelector('i');
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+      const isActive = mobileMenu.classList.contains('active');
+      hamburgerIcon.className = isActive ? 'fas fa-times' : 'fas fa-bars';
+    });
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        hamburgerIcon.className = 'fas fa-bars';
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+        mobileMenu.classList.remove('active');
+        hamburgerIcon.className = 'fas fa-bars';
+      }
     });
   </script>
 </body>

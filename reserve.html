@@ -16,9 +16,10 @@
       --accent: #0066b1;
       --border: rgba(255,255,255,0.08);
       --shadow: rgba(0,0,0,0.5);
+      --nav-height: 70px;
     }
 
-    .light-theme {
+    .light-mode {
       --bg: #f8f9fa;
       --surface: #ffffff;
       --card-bg: #f1f3f5;
@@ -37,35 +38,71 @@
       transition: background-color 0.4s, color 0.4s;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       background-color: var(--bg);
       color: var(--text);
+      line-height: 1.7;
+      overflow-x: hidden;
     }
-
     nav {
       position: fixed;
       top: 0;
       width: 100%;
+      height: var(--nav-height);
       background: var(--surface);
-      padding: 1rem 5%;
+      padding: 0 5%;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 1000;
       box-shadow: 0 2px 10px var(--shadow);
     }
-
     .nav-left {
       display: flex;
       align-items: center;
       gap: 1.2rem;
     }
-
     .back-btn {
       background: none;
       border: none;
       color: var(--text);
-      font-size: 1.4rem;
+      font-size: 1.3rem;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.3s, color 0.3s;
+    }
+    .back-btn:hover {
+      background: var(--border);
+      color: var(--accent);
+    }
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .mode-toggle {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.3rem;
       cursor: pointer;
       width: 40px;
       height: 40px;
@@ -76,41 +113,80 @@
       transition: background 0.3s;
     }
 
-    .back-btn:hover {
+    .mode-toggle:hover {
       background: var(--border);
-      color: var(--accent);
     }
 
-    .logo {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .theme-toggle {
+    .hamburger {
+      display: none;
       background: none;
       border: none;
       color: var(--text);
-      font-size: 1.4rem;
+      font-size: 1.5rem;
       cursor: pointer;
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      display: flex;
       align-items: center;
       justify-content: center;
+      transition: background 0.3s;
     }
 
+    .hamburger:hover {
+      background: var(--border);
+    }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: var(--nav-height);
+      left: 0;
+      width: 100%;
+      background: var(--surface);
+      box-shadow: 0 4px 15px var(--shadow);
+      z-index: 999;
+      padding: 1rem 0;
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+    .mobile-menu.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .mobile-menu ul {
+      list-style: none;
+      padding: 0;
+    }
+    .mobile-menu ul li {
+      border-bottom: 1px solid var(--border);
+    }
+    .mobile-menu ul li:last-child {
+      border-bottom: none;
+    }
+    .mobile-menu ul li a {
+      display: block;
+      padding: 1rem 5%;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.3s, color 0.3s;
+    }
+    .mobile-menu ul li a:hover {
+      background: var(--border);
+      color: var(--accent);
+    }
     main {
-      margin-top: 90px;
+      margin-top: calc(var(--nav-height) + 20px);
       padding: 2rem 5%;
       display: flex;
       flex-wrap: wrap;
       gap: 2rem;
       justify-content: center;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      min-height: calc(100vh - var(--nav-height));
     }
-
     .summary, .booking-form {
       background: var(--card-bg);
       padding: 2rem;
@@ -118,88 +194,328 @@
       width: 100%;
       max-width: 500px;
       box-shadow: 0 8px 20px var(--shadow);
+      border: 1px solid var(--border);
     }
-
     h1, h2 {
       text-align: center;
       margin-bottom: 1.5rem;
       color: var(--text);
+      font-size: 1.6rem;
+    }
+    h2::after {
+      content: '';
+      display: block;
+      width: 50px;
+      height: 3px;
+      background: var(--accent);
+      margin: 0.6rem auto;
+      border-radius: 2px;
     }
 
     .car-preview {
       text-align: center;
       margin-bottom: 1.5rem;
     }
-
     .car-preview img {
-      width: 350px;
-    
+      width: 100%;
+      max-width: 350px;
       padding: 0.8rem;
       border-radius: 8px;
       margin-bottom: 1rem;
+      background: var(--bg);
     }
-
     .car-preview h2 {
       color: var(--text);
       margin-bottom: 0.3rem;
       font-size: 1.4rem;
     }
-
+    .car-preview h2::after {
+      display: none;
+    }
     .car-preview .brand {
       color: var(--accent);
       font-size: 0.95rem;
+      font-weight: 500;
     }
-
     .price {
       font-size: 1.6rem;
       color: var(--accent);
       font-weight: bold;
       margin: 1rem 0;
     }
-
     .form-group {
       margin-bottom: 1.2rem;
     }
-
     .form-group label {
       display: block;
       margin-bottom: 0.5rem;
       font-weight: 500;
+      color: var(--text);
     }
-
     .form-control {
       width: 100%;
-      padding: 0.8rem;
+      padding: 0.85rem;
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 6px;
       color: var(--text);
       font-size: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
-
-    .btn {
+    .form-control:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0,102,177,0.15);
+    }
+    .confirmresbtn {
       display: inline-block;
       background: var(--accent);
       color: white;
-      padding: 0.9rem 2rem;
+      padding: 1rem 2rem;
       border: none;
       border-radius: 6px;
       font-weight: 600;
       cursor: pointer;
       width: 100%;
       font-size: 1.1rem;
+      transition: all 0.3s;
+      margin-top: 0.5rem;
     }
-
-    .btn:hover {
+    .confirmresbtn:hover {
       background: #005599;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(0,102,177,0.4);
     }
-
     footer {
       text-align: center;
-      padding: 2rem;
+      padding: 2rem 5%;
       color: var(--text-secondary);
       border-top: 1px solid var(--border);
       font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    @media (max-width: 992px) {
+      .logo {
+        font-size: 1.4rem;
+      }
+
+      .nav-left {
+        gap: 1rem;
+      }
+
+      main {
+        padding: 1.8rem 4%;
+        gap: 1.8rem;
+      }
+
+      .summary, .booking-form {
+        padding: 1.8rem;
+      }
+
+      h1, h2 {
+        font-size: 1.4rem;
+      }
+
+      .car-preview img {
+        max-width: 300px;
+      }
+
+      .car-preview h2 {
+        font-size: 1.3rem;
+      }
+
+      .price {
+        font-size: 1.4rem;
+      }
+    }
+
+    /* ===== MOBILE (max-width: 768px) ===== */
+    @media (max-width: 768px) {
+      :root {
+        --nav-height: 60px;
+      }
+
+      .logo {
+        font-size: 1.25rem;
+      }
+
+      .nav-left {
+        gap: 0.8rem;
+      }
+
+      .back-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+      }
+
+      .mode-toggle {
+        width: 36px;
+        height: 36px;
+        font-size: 1.1rem;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+
+      main {
+        flex-direction: column;
+        align-items: center;
+        padding: 1.5rem 4%;
+        gap: 1.5rem;
+        margin-top: calc(var(--nav-height) + 15px);
+      }
+
+      .summary, .booking-form {
+        padding: 1.5rem 1.2rem;
+        max-width: 100%;
+      }
+
+      h1, h2 {
+        font-size: 1.3rem;
+        margin-bottom: 1.2rem;
+      }
+
+      .car-preview img {
+        max-width: 280px;
+        padding: 0.6rem;
+      }
+
+      .car-preview h2 {
+        font-size: 1.2rem;
+      }
+
+      .car-preview .brand {
+        font-size: 0.9rem;
+      }
+
+      .price {
+        font-size: 1.3rem;
+        margin: 0.8rem 0;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      .form-group label {
+        font-size: 0.95rem;
+      }
+
+      .form-control {
+        padding: 0.8rem;
+        font-size: 0.95rem;
+      }
+
+      .confirmresbtn {
+        padding: 0.9rem 1.8rem;
+        font-size: 1rem;
+      }
+
+      footer {
+        font-size: 0.85rem;
+        padding: 1.5rem 4%;
+      }
+    }
+    @media (max-width: 480px) {
+      .logo {
+        font-size: 1.1rem;
+      }
+
+      main {
+        padding: 1.2rem 3%;
+        gap: 1.2rem;
+        margin-top: calc(var(--nav-height) + 10px);
+      }
+
+      .summary, .booking-form {
+        padding: 1.3rem 1rem;
+        border-radius: 12px;
+      }
+
+      h1, h2 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+      }
+
+      .car-preview img {
+        max-width: 240px;
+        padding: 0.5rem;
+      }
+
+      .car-preview h2 {
+        font-size: 1.1rem;
+      }
+
+      .car-preview .brand {
+        font-size: 0.85rem;
+      }
+
+      .price {
+        font-size: 1.2rem;
+      }
+
+      .form-group {
+        margin-bottom: 0.9rem;
+      }
+
+      .form-group label {
+        font-size: 0.9rem;
+        margin-bottom: 0.4rem;
+      }
+
+      .form-control {
+        padding: 0.75rem;
+        font-size: 0.9rem;
+      }
+
+      .confirmresbtn {
+        padding: 0.85rem 1.5rem;
+        font-size: 0.95rem;
+      }
+
+      footer {
+        font-size: 0.8rem;
+        padding: 1.2rem 3%;
+      }
+    }
+    @media (max-width: 360px) {
+      .logo {
+        font-size: 1rem;
+      }
+
+      .summary, .booking-form {
+        padding: 1.1rem 0.9rem;
+      }
+
+      h1, h2 {
+        font-size: 1.1rem;
+      }
+
+      .car-preview img {
+        max-width: 200px;
+      }
+
+      .car-preview h2 {
+        font-size: 1rem;
+      }
+
+      .price {
+        font-size: 1.1rem;
+      }
+
+      .form-control {
+        font-size: 0.85rem;
+      }
+
+      .confirmresbtn {
+        font-size: 0.9rem;
+      }
     }
   </style>
 </head>
@@ -207,16 +523,28 @@
 
   <nav>
     <div class="nav-left">
-      <button class="back-btn" onclick="window.history.back()">
+      <button class="back-btn" onclick="window.history.back()" aria-label="Go back">
         <i class="fas fa-arrow-left"></i>
       </button>
       <a href="index.html" class="logo">CarsForRent<span style="color:var(--text-secondary)">.com</span></a>
     </div>
-    <button id="themeToggle" class="theme-toggle">
-      <i class="fas fa-moon"></i>
-    </button>
+    <div class="nav-right">
+      <button id="darkmode" class="mode-toggle" aria-label="Toggle theme">
+        <i class="fas fa-moon"></i>
+      </button>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
   </nav>
-
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="cars.html">Cars</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </div>
   <main>
     <div class="summary">
       <h2>Your Selection</h2>
@@ -230,7 +558,6 @@
         All rentals include insurance, 24/7 roadside assistance, and unlimited mileage.
       </p>
     </div>
-
     <div class="booking-form">
       <h2>Complete Your Reservation</h2>
       <form id="bookingForm">
@@ -254,35 +581,49 @@
           <label for="phone">Phone Number</label>
           <input type="tel" id="phone" class="form-control" required>
         </div>
-        <button type="submit" class="btn">Confirm Reservation</button>
+        <button type="submit" class="confirmresbtn">Confirm Reservation</button>
       </form>
     </div>
   </main>
-
   <footer>
-    &copy; 2025 CarsForRent.com – powered and developed by: Abdullah Tarhini - Secure. Luxury. Guaranteed.
+    &copy; 2025 CarsForRent.com – Secure. Luxury. Guaranteed.<br>
+    Powered and developed by Abdullah Tarhini | All Rights Reserved
   </footer>
-
   <script>
-    // Theme toggle
     const html = document.getElementById('htmlRoot');
-    const toggleBtn = document.getElementById('themeToggle');
-    const icon = toggleBtn.querySelector('i');
-
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    if (savedTheme === 'light') {
-      html.classList.add('light-theme');
+    const dm = document.getElementById('darkmode');
+    const icon = dm.querySelector('i');
+    const savedmode = localStorage.getItem('mode') || 'dark';
+    if (savedmode === 'light') {
+      html.classList.add('light-mode');
       icon.className = 'fas fa-sun';
     }
-
-    toggleBtn.addEventListener('click', () => {
-      html.classList.toggle('light-theme');
-      const isLight = html.classList.contains('light-theme');
-      localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    dm.addEventListener('click', () => {
+      html.classList.toggle('light-mode');
+      const isLight = html.classList.contains('light-mode');
+      localStorage.setItem('mode', isLight ? 'light' : 'dark');
       icon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
     });
-
-    // Full car data (same as car-detail.html)
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const hamburgerIcon = hamburger.querySelector('i');
+    hamburger.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+      const isActive = mobileMenu.classList.contains('active');
+      hamburgerIcon.className = isActive ? 'fas fa-times' : 'fas fa-bars';
+    });
+    document.querySelectorAll('.mobile-menu a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        hamburgerIcon.className = 'fas fa-bars';
+      });
+    });
+    document.addEventListener('click', (e) => {
+      if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+        mobileMenu.classList.remove('active');
+        hamburgerIcon.className = 'fas fa-bars';
+      }
+    });
     const cars = {
       mercedes: {
         cla: {
@@ -343,44 +684,35 @@
         }
       }
     };
-
     const urlParams = new URLSearchParams(window.location.search);
     const brandKey = urlParams.get('brand');
     const modelKey = urlParams.get('model');
     const colorIndex = parseInt(urlParams.get('color')) || 0;
-
     if (cars[brandKey] && cars[brandKey][modelKey]) {
       const car = cars[brandKey][modelKey];
       const color = car.colors[colorIndex] || car.colors[0];
-
       document.getElementById('modelName').textContent = car.name;
       document.getElementById('brandName').textContent = car.brand;
       document.getElementById('price').textContent = car.price;
       document.getElementById('carImg').src = color.img;
     }
-
-    // Form validation
     document.getElementById('bookingForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const pickup = new Date(document.getElementById('pickup').value);
       const dropoff = new Date(document.getElementById('dropoff').value);
-      
       if (dropoff <= pickup) {
         alert('⚠️ Drop-off must be after pick-up.');
         return;
       }
-
       alert('✅ Reservation confirmed!\nOur concierge will contact you within 15 minutes.');
       this.reset();
     });
-
-    // Set min datetime to now
     const now = new Date();
     const year = now.getFullYear();
     const month = String(now.getMonth() + 1).padStart(2, '0');
     const day = String(now.getDate()).padStart(2, '0');
     const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(Math.ceil(now.getMinutes() / 15) * 15 % 60).padStart(2, '0'); // Round up to next 15 min
+    const minutes = String(Math.ceil(now.getMinutes() / 15) * 15 % 60).padStart(2, '0');
     document.getElementById('pickup').min = `${year}-${month}-${day}T${hours}:${minutes}`;
     document.getElementById('dropoff').min = `${year}-${month}-${day}T${hours}:${minutes}`;
   </script>
