@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" id="htmlRoot">
+<html lang="en" id="root">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -113,7 +113,7 @@
       background: var(--border);
     }
 
-    .hamburger {
+    .navtog {
       display: none;
       background: none;
       border: none;
@@ -128,7 +128,7 @@
       transition: background 0.3s;
     }
 
-    .hamburger:hover {
+    .navtog:hover {
       background: var(--border);
     }
     .mobile-menu {
@@ -315,7 +315,7 @@
         display: none;
       }
 
-      .hamburger {
+      .navtog {
         display: flex;
       }
 
@@ -446,12 +446,12 @@
       <button id="darkmode" class="mode-toggle" aria-label="Toggle theme">
         <i class="fas fa-moon"></i>
       </button>
-      <button class="hamburger" id="hamburger" aria-label="Menu">
+      <button class="navtog" id="navtog" aria-label="Menu">
         <i class="fas fa-bars"></i>
       </button>
     </div>
   </nav>
-  <div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu" id="mobmenu">
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html">About</a></li>
@@ -518,42 +518,6 @@
     </div>
   </main>
 
-  <script>
-    const html = document.getElementById('htmlRoot');
-    const dm = document.getElementById('darkmode');
-    const icon = dm.querySelector('i');
-    const savedmode = localStorage.getItem('mode') || 'dark';
-    if (savedmode === 'light') {
-      html.classList.add('light-mode');
-      icon.className = 'fas fa-sun';
-    }
-    dm.addEventListener('click', () => {
-      html.classList.toggle('light-mode');
-      const isLight = html.classList.contains('light-mode');
-      localStorage.setItem('mode', isLight ? 'light' : 'dark');
-      icon.className = isLight ? 'fas fa-sun' : 'fas fa-moon'; 
-    });
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const hamburgerIcon = hamburger.querySelector('i');
-
-    hamburger.addEventListener('click', () => {
-      mobileMenu.classList.toggle('active');
-      const isActive = mobileMenu.classList.contains('active');
-      hamburgerIcon.className = isActive ? 'fas fa-times' : 'fas fa-bars';
-    });
-    document.querySelectorAll('.mobile-menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
-        hamburgerIcon.className = 'fas fa-bars';
-      });
-    });
-    document.addEventListener('click', (e) => {
-      if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
-        mobileMenu.classList.remove('active');
-        hamburgerIcon.className = 'fas fa-bars';
-      }
-    });
-  </script>
+  <script src="darkmode.js"></script>
 </body>
 </html>

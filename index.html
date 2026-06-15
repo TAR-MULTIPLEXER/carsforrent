@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" id="htmlRoot">
+<html lang="en" id="root">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -110,7 +110,7 @@
       background: var(--border);
     }
 
-    .hamburger {
+    .navtog {
       display: none;
       background: none;
       border: none;
@@ -125,7 +125,7 @@
       transition: background 0.3s;
     }
 
-    .hamburger:hover {
+    .navtog:hover {
       background: var(--border);
     }
     .mobile-menu {
@@ -396,7 +396,7 @@
         display: none;
       }
 
-      .hamburger {
+      .navtog {
         display: flex;
       }
 
@@ -540,15 +540,15 @@
       <li><a href="contact.html">Contact</a></li>
     </ul>
     <div class="nav-right">
-      <button id="darkmode" class="dark-mode" aria-label="Mode">
+      <button id="darkmode" class="dark-mode" aria-label="mode">
         <i class="fas fa-moon"></i>
       </button>
-      <button class="hamburger" id="hamburger" aria-label="Menu">
+      <button class="navtog" id="navtog" aria-label="menu">
         <i class="fas fa-bars"></i>
       </button>
     </div>
   </nav>
-  <div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu" id="mobmenu">
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="cars.html">Cars</a></li>
@@ -642,41 +642,6 @@
     Powered and developed by Abdullah Tarhini | All Rights Reserved
   </footer>
 
-  <script>
-    const html = document.getElementById('htmlRoot');
-    const dm = document.getElementById('darkmode');
-    const icon = dm.querySelector('i');
-    const savedmode = localStorage.getItem('mode') || 'dark';
-    if (savedmode === 'light') { //iza kenet msayave light , hot el kabse we icon sun 
-      html.classList.add('light-mode');
-      icon.className = 'fas fa-sun';
-    }
-    dm.addEventListener('click', () => {
-      html.classList.toggle('light-mode');
-      const isLight = html.classList.contains('light-mode');
-      localStorage.setItem('mode', isLight ? 'light' : 'dark');
-      icon.className = isLight ? 'fas fa-sun' : 'fas fa-moon'; // iza lclass light then 3mele el icon sun eza la2 khali moon
-    });
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const hamburgerIcon = hamburger.querySelector('i');
-    hamburger.addEventListener('click', () => {
-      mobileMenu.classList.toggle('active');
-      const isActive = mobileMenu.classList.contains('active');
-      hamburgerIcon.className = isActive ? 'fas fa-times' : 'fas fa-bars';
-    });
-    document.querySelectorAll('.mobile-menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
-        hamburgerIcon.className = 'fas fa-bars';
-      });
-    });
-    document.addEventListener('click', (e) => {
-      if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
-        mobileMenu.classList.remove('active');
-        hamburgerIcon.className = 'fas fa-bars';
-      }
-    });
-  </script>
+  <script src="darkmode.js"></script>
 </body>
 </html>

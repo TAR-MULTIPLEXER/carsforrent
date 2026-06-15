@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" id="htmlRoot">
+<html lang="en" id="root">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -113,7 +113,7 @@
     .mode-toggle:hover {
       background: var(--border);
     }
-    .hamburger {
+    .navtog {
       display: none;
       background: none;
       border: none;
@@ -128,7 +128,7 @@
       transition: background 0.3s;
     }
 
-    .hamburger:hover {
+    .navtog:hover {
       background: var(--border);
     }
     .mobile-menu {
@@ -337,7 +337,7 @@
         height: 36px;
         font-size: 1.1rem;
       }
-      .hamburger {
+      .navtog {
         display: flex;
       }
       .mobile-menu {
@@ -470,7 +470,7 @@
       <button id="darkmode" class="mode-toggle" aria-label="Toggle theme">
         <i class="fas fa-moon"></i>
       </button>
-      <button class="hamburger" id="hamburger" aria-label="Menu">
+      <button class="navtog" id="navtog" aria-label="Menu">
         <i class="fas fa-bars"></i>
       </button>
     </div>
@@ -499,47 +499,13 @@
       </div>
       <div class="color-options">
         <h3>Choose Exterior Color</h3>
-        <div class="colors" id="colorSwatches"></div>
+        <div class="colors" id="choosecolors"></div>
       </div>
-      <a href="#" id="reserveBtn" class="reservenowbtn">Reserve Now</a>
+      <a href="#" id="reservebtn" class="reservenowbtn" aria-label="reserve now">Reserve Now</a>
     </div>
   </main>
+  <script src="darkmode.js"></script>
   <script>
-    const html = document.getElementById('htmlRoot');
-    const dm = document.getElementById('darkmode');
-    const icon = dm.querySelector('i');
-    const savedmode = localStorage.getItem('mode') || 'dark';
-    if (savedmode === 'light') {
-      html.classList.add('light-mode');
-      icon.className = 'fas fa-sun';
-    }
-    dm.addEventListener('click', () => {
-      html.classList.toggle('light-mode');
-      const isLight = html.classList.contains('light-mode');
-      localStorage.setItem('mode', isLight ? 'light' : 'dark');
-      icon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
-    });
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const hamburgerIcon = hamburger.querySelector('i');
-
-    hamburger.addEventListener('click', () => {
-      mobileMenu.classList.toggle('active');
-      const isActive = mobileMenu.classList.contains('active');
-      hamburgerIcon.className = isActive ? 'fas fa-times' : 'fas fa-bars';
-    });
-    document.querySelectorAll('.mobile-menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
-        hamburgerIcon.className = 'fas fa-bars';
-      });
-    });
-    document.addEventListener('click', (e) => {
-      if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
-        mobileMenu.classList.remove('active');
-        hamburgerIcon.className = 'fas fa-bars';
-      }
-    });
     const cars = {
       mercedes: {
         cla: {
@@ -636,10 +602,10 @@
         }
       }
     };
-    let selectedColorIndex = 0;
-    const urlParams = new URLSearchParams(window.location.search);
-    const brandKey = urlParams.get('brand');
-    const modelKey = urlParams.get('model');
+    let defselclr = 0; // selected color by default = 0 
+    const cardetails = new URLSearchParams(window.location.search);
+    const brandKey = cardetails.get('brand');
+    const modelKey = cardetails.get('model');
     if (cars[brandKey] && cars[brandKey][modelKey]) {
       const car = cars[brandKey][modelKey];
       document.getElementById('modelName').textContent = car.name;
@@ -650,27 +616,26 @@
       document.getElementById('accel').textContent = car.accel;
       document.getElementById('trans').textContent = car.trans;
       const img = document.getElementById('carImg');
-      const swatches = document.getElementById('colorSwatches');
+      const choseclr = document.getElementById('choosecolors');
       img.src = car.colors[0].img;
-      selectedColorIndex = 0;
+      defselclr = 0;
       car.colors.forEach((color, i) => {
         const swatch = document.createElement('div');
         swatch.className = 'color-swatch';
         swatch.style.backgroundColor = color.code;
         swatch.title = color.name;
-        if (i === 0) swatch.classList.add('active');
-        swatch.onclick = () => {
+        if (i === 0) swatch.classList.add('active');        swatch.onclick = () => {
           document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('active'));
           swatch.classList.add('active');
           img.src = color.img;
-          selectedColorIndex = i;
+          defselclr = i;
         };
-        swatches.appendChild(swatch);
+        choseclr.appendChild(swatch);
       });
-      const reserveBtn = document.getElementById('reserveBtn');
-      reserveBtn.addEventListener('click', (e) => {
+      const resbtn = document.getElementById('reservebtn');
+      resbtn.addEventListener('click', (e) => {
         e.preventDefault();
-        const url = `reserve.html?brand=${brandKey}&model=${modelKey}&color=${selectedColorIndex}`;
+        const url = `reserve.html?brand=${brandKey}&model=${modelKey}&color=${defselclr}`;
         window.location.href = url;
       });
     } else {

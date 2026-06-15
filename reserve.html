@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" id="htmlRoot">
+<html lang="en" id="root">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -532,7 +532,7 @@
       <button id="darkmode" class="mode-toggle" aria-label="Toggle theme">
         <i class="fas fa-moon"></i>
       </button>
-      <button class="hamburger" id="hamburger" aria-label="Menu">
+      <button class="navtog" id="navtog" aria-label="Menu">
         <i class="fas fa-bars"></i>
       </button>
     </div>
@@ -590,40 +590,6 @@
     Powered and developed by Abdullah Tarhini | All Rights Reserved
   </footer>
   <script>
-    const html = document.getElementById('htmlRoot');
-    const dm = document.getElementById('darkmode');
-    const icon = dm.querySelector('i');
-    const savedmode = localStorage.getItem('mode') || 'dark';
-    if (savedmode === 'light') {
-      html.classList.add('light-mode');
-      icon.className = 'fas fa-sun';
-    }
-    dm.addEventListener('click', () => {
-      html.classList.toggle('light-mode');
-      const isLight = html.classList.contains('light-mode');
-      localStorage.setItem('mode', isLight ? 'light' : 'dark');
-      icon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
-    });
-    const hamburger = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobileMenu');
-    const hamburgerIcon = hamburger.querySelector('i');
-    hamburger.addEventListener('click', () => {
-      mobileMenu.classList.toggle('active');
-      const isActive = mobileMenu.classList.contains('active');
-      hamburgerIcon.className = isActive ? 'fas fa-times' : 'fas fa-bars';
-    });
-    document.querySelectorAll('.mobile-menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.remove('active');
-        hamburgerIcon.className = 'fas fa-bars';
-      });
-    });
-    document.addEventListener('click', (e) => {
-      if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
-        mobileMenu.classList.remove('active');
-        hamburgerIcon.className = 'fas fa-bars';
-      }
-    });
     const cars = {
       mercedes: {
         cla: {
@@ -684,13 +650,13 @@
         }
       }
     };
-    const urlParams = new URLSearchParams(window.location.search);
-    const brandKey = urlParams.get('brand');
-    const modelKey = urlParams.get('model');
-    const colorIndex = parseInt(urlParams.get('color')) || 0;
+    const cardetails = new URLSearchParams(window.location.search);
+    const brandKey = cardetails.get('brand');
+    const modelKey = cardetails.get('model');
+    const colorindex = parseInt(cardetails.get('color')) || 0;
     if (cars[brandKey] && cars[brandKey][modelKey]) {
       const car = cars[brandKey][modelKey];
-      const color = car.colors[colorIndex] || car.colors[0];
+      const color = car.colors[colorindex] || car.colors[0];
       document.getElementById('modelName').textContent = car.name;
       document.getElementById('brandName').textContent = car.brand;
       document.getElementById('price').textContent = car.price;
