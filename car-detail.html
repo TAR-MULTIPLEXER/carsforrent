@@ -193,7 +193,7 @@
       background: var(--card-bg);
       padding: 1.5rem;
       border-radius: 12px;
-      margin: 0 auto;
+      margin: 11.5% auto;
       border: 1px solid var(--border);
     }
     .car-info {
@@ -485,7 +485,7 @@
   </div>
   <main>
     <div class="car-preview">
-      <img id="carImg" class="car-image" src="" alt="Car">
+      <img id="carimg" class="car-image" src="" alt="Car">
     </div>
     <div class="car-info">
       <h1 id="modelName">Loading...</h1>
@@ -615,7 +615,7 @@
       document.getElementById('hp').textContent = car.hp;
       document.getElementById('accel').textContent = car.accel;
       document.getElementById('trans').textContent = car.trans;
-      const img = document.getElementById('carImg');
+      const img = document.getElementById('carimg');
       const choseclr = document.getElementById('choosecolors');
       img.src = car.colors[0].img;
       defselclr = 0;
